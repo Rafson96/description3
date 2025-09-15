@@ -513,14 +513,22 @@ function wrapInBold(textareaId) {
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
 
+  
+    if (start === end) {
+        return; 
+    }
+
     const selected = textarea.value.substring(start, end);
     const before = textarea.value.substring(0, start);
     const after = textarea.value.substring(end);
 
- const wrapped = `<strong>${selected}</strong>`;
+    
+    const wrapped = `<strong>${selected}</strong>`;
     textarea.value = before + wrapped + after;
 
-    textarea.selectionStart = textarea.selectionEnd = before.length + wrapped.length;
+   
+    const newPosition = start + wrapped.length;
+    textarea.selectionStart = textarea.selectionEnd = newPosition;
     textarea.focus();
 }
 
@@ -653,13 +661,13 @@ function generateTextSection(sectionId, section) {
             
         const items = content.split('\n')
             .filter(item => item.trim())
-            .map(item => `    <li>${escapeHtml(item).replace(/\[b\](.*?)\[\/b\]/g, '<strong>$1</strong>')}</li>`)
+            .map(item => `    <li>${item}</li>`)
             .join('\n');
             
         return `${listHeading}<${tag}${classAttr}>\n${items}\n</${tag}>`;
     }
     
-    const processedContent = escapeHtml(content).replace(/\[b\](.*?)\[\/b\]/g, '<strong>$1</strong>');
+    const processedContent = content;
     return `<${tag}${classAttr}>${processedContent}</${tag}>`;
 }
 
@@ -775,4 +783,3 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
