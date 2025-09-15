@@ -517,7 +517,7 @@ function wrapInBold(textareaId) {
     const before = textarea.value.substring(0, start);
     const after = textarea.value.substring(end);
 
-    const wrapped = `[b]${selected}[/b]`;
+ const wrapped = `<strong>${selected}</strong>`;
     textarea.value = before + wrapped + after;
 
     textarea.selectionStart = textarea.selectionEnd = before.length + wrapped.length;
