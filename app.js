@@ -1,5 +1,89 @@
 
 let sectionCount = 0;
+
+const imageOptions = [
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_zona_wiz2.jpg",
+        alt: "Lustro Multiline Zona - wizualizacja 2"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz4_1_.jpg",
+        alt: "Lustro Multiline Trim - wizualizacja 4"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_zona_wiz1.jpg",
+        alt: "Lustro Multiline Zona - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz2_1_.jpg",
+        alt: "Lustro Multiline Trim - wizualizacja 2"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz3_1_.jpg",
+        alt: "Lustro Multiline Trim - wizualizacja 3"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz1_1_.jpg",
+        alt: "Lustro Multiline Trim - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz4.jpg",
+        alt: "Lustro Multiline Trim - wizualizacja 4 alternatywna"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz3.jpg",
+        alt: "Lustro Multiline Sid - wizualizacja 3"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz5_1_.jpg",
+        alt: "Lustro Multiline Sid - wizualizacja 5"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz1_1_.jpg",
+        alt: "Lustro Multiline Sid - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_orbita_lux_wiz7.jpg",
+        alt: "Lustro Multiline Orbita Lux - wizualizacja 7"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_orbita_amb_wiz4.jpg",
+        alt: "Lustro Multiline Orbita Ambient - wizualizacja 4"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz5.jpg",
+        alt: "Lustro Multiline Moon - wizualizacja 5"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz3.jpg",
+        alt: "Lustro Multiline Moon - wizualizacja 3"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz1.jpg",
+        alt: "Lustro Multiline Moon - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_longer_sand_wiz1.jpg",
+        alt: "Lustro Multiline Longer Sand - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_longer_wiz1.jpg",
+        alt: "Lustro Multiline Longer - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_kinu_wiz1.jpg",
+        alt: "Lustro Multiline Kinu - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_ceres_sand_wiz1.jpg",
+        alt: "Lustro Multiline Ceres Sand - wizualizacja 1"
+    },
+    {
+        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_ceres_wiz1.jpg",
+        alt: "Lustro Multiline Ceres - wizualizacja 1"
+    }
+];
+
 const advantagesOptions = [
     {
         src: "https://mfstore.pl/media/wysiwyg/icon_advantage/4_V_mikro_fuga.png",
@@ -351,6 +435,11 @@ function addImageSection() {
     const div = document.createElement('div');
     div.className = 'section-block';
     div.setAttribute('data-id', sectionId);
+    
+    const imageOptionsHtml = imageOptions.map((img, index) => 
+        `<option value="${index}">${img.alt}</option>`
+    ).join('');
+
     div.innerHTML = `
         <div class="section-actions">
             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
@@ -358,6 +447,13 @@ function addImageSection() {
             <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
         </div>
         <h5>Sekcja obrazkowa</h5>
+        <div class="mb-3">
+            <label class="form-label">Wybierz zdjęcie:</label>
+            <select class="form-select" onchange="updateImageDetails(this, '${sectionId}')">
+                <option value="">-- Wybierz zdjęcie --</option>
+                ${imageOptionsHtml}
+            </select>
+        </div>
         <div class="mb-2">
             <label class="form-label">URL obrazka:</label>
             <input type="text" class="form-control" name="sections[${sectionId}][url]" placeholder="https://example.com/image.jpg">
@@ -379,6 +475,9 @@ function addImageSection() {
         <div class="mb-2 mt-2">
             <label class="form-label">Klasa CSS:</label>
             <input type="text" class="form-control" name="sections[${sectionId}][class]">
+        </div>
+        <div class="mt-3">
+            <img src="" alt="" style="max-width: 100%; display: none;" class="image-preview">
         </div>
         <input type="hidden" name="sections[${sectionId}][type]" value="image">
     `;
@@ -418,7 +517,7 @@ function wrapInBold(textareaId) {
     const before = textarea.value.substring(0, start);
     const after = textarea.value.substring(end);
 
-    const wrapped = `<strong>${selected}</strong>`;
+    const wrapped = `[b]${selected}[/b]`;
     textarea.value = before + wrapped + after;
 
     textarea.selectionStart = textarea.selectionEnd = before.length + wrapped.length;
@@ -468,7 +567,6 @@ function addAdvantageItem(button, sectionId) {
             </select>
         </div>
         <div id="${hiddenId}">
-            <!-- ukryte pola na dane -->
             <input type="hidden" name="sections[${sectionId}][items][${index}][src]">
             <input type="hidden" name="sections[${sectionId}][items][${index}][alt]">
             <input type="hidden" name="sections[${sectionId}][items][${index}][title]">
@@ -491,10 +589,6 @@ function updateHiddenFields(selectId, hiddenId, sectionId, index) {
     wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][desc]"]`).value = option.desc;
 }
 
-/* === ANTY-PUSTE <h2> ===
-   Przed wysyłką formularza usuwamy atrybut "name" z pustych pól list_heading.
-   Dzięki temu backend nie dostanie list_heading => nie wygeneruje pustego <h2>.
-*/
 function scrubEmptyListHeadings(root = document) {
     root.querySelectorAll('.section-block').forEach(block => {
         const tagSelect = block.querySelector('select[name^="sections"][name$="[tag]"]');
@@ -516,12 +610,11 @@ function scrubEmptyListHeadings(root = document) {
     });
 }
 
-// Automatyczne podpięcie pod pierwszy <form>. Jeśli masz konkretny ID (np. #builderForm), podmień selektor.
+
 function generateHTML(event) {
     event.preventDefault();
     scrubEmptyListHeadings();
     
-    // Zbierz wszystkie sekcje
     const sections = document.querySelectorAll('.section-block');
     let generatedHtml = '';
     
@@ -542,17 +635,9 @@ function generateHTML(event) {
         }
     });
     
-    // Pokaż wynik
     const resultDiv = document.getElementById('result');
     resultDiv.style.display = 'block';
-    
-    // Pokaż podgląd
-    const preview = resultDiv.querySelector('.preview');
-    preview.innerHTML = generatedHtml;
-    
-    // Pokaż kod źródłowy
-    const code = resultDiv.querySelector('code');
-    code.textContent = generatedHtml;
+    updatePreviewAndCode(generatedHtml);
 }
 
 function generateTextSection(sectionId, section) {
@@ -568,13 +653,13 @@ function generateTextSection(sectionId, section) {
             
         const items = content.split('\n')
             .filter(item => item.trim())
-            .map(item => `    <li>${item}</li>`)
+            .map(item => `    <li>${escapeHtml(item).replace(/\[b\](.*?)\[\/b\]/g, '<strong>$1</strong>')}</li>`)
             .join('\n');
             
         return `${listHeading}<${tag}${classAttr}>\n${items}\n</${tag}>`;
     }
     
-    const processedContent = content;
+    const processedContent = escapeHtml(content).replace(/\[b\](.*?)\[\/b\]/g, '<strong>$1</strong>');
     return `<${tag}${classAttr}>${processedContent}</${tag}>`;
 }
 
@@ -631,9 +716,25 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+function updatePreviewAndCode(html) {
+    const preview = document.querySelector('#result .preview');
+    preview.innerHTML = html;
+    const sourceCode = document.getElementById('sourceCode');
+    sourceCode.value = html;
+}
+
+function updatePreview() {
+    const sourceCode = document.getElementById('sourceCode');
+    const preview = document.querySelector('#result .preview');
+    const html = sourceCode.value;
+    
+
+    preview.innerHTML = html;
+}
+
 function copyToClipboard() {
-    const code = document.querySelector('#result code');
-    navigator.clipboard.writeText(code.textContent).then(() => {
+    const sourceCode = document.getElementById('sourceCode');
+    navigator.clipboard.writeText(sourceCode.value).then(() => {
         alert('Kod został skopiowany do schowka!');
     }).catch(err => {
         console.error('Błąd podczas kopiowania:', err);
@@ -641,11 +742,33 @@ function copyToClipboard() {
     });
 }
 
+function updateImageDetails(select, sectionId) {
+    const section = select.closest('.section-block');
+    const index = select.value;
+    
+    if (index === '') {
+        section.querySelector(`input[name="sections[${sectionId}][url]"]`).value = '';
+        section.querySelector(`input[name="sections[${sectionId}][alt]"]`).value = '';
+        section.querySelector('.image-preview').style.display = 'none';
+        return;
+    }
+    
+    const imageData = imageOptions[index];
+   
+    section.querySelector(`input[name="sections[${sectionId}][url]"]`).value = imageData.url;
+    section.querySelector(`input[name="sections[${sectionId}][alt]"]`).value = imageData.alt;
+    
+   
+    const preview = section.querySelector('.image-preview');
+    preview.src = imageData.url;
+    preview.alt = imageData.alt;
+    preview.style.display = 'block';
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
     if (!form) return;
 
-    // Na bieżąco pilnujemy przy wpisywaniu/usuwaniu tytułu
     form.addEventListener('input', (e) => {
         if (e.target && (e.target.matches('input[name$="[list_heading]"]') || e.target.matches('input[data-name-was$="[list_heading]"]'))) {
             scrubEmptyListHeadings(form);
