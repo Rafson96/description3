@@ -468,7 +468,7 @@ function addImageSection() {
       </div>
     </div>
     <div class="mb-2 mt-2">
-      <label class="form-label">Klasa CSS (dla sekcji image-item):</label>
+      <label class="form-label">Klasa CSS (dla tagu img):</label>
       <input type="text" class="form-control" name="sections[${sectionId}][class]">
     </div>
     <div class="mt-3">
@@ -604,7 +604,7 @@ function wrapInBold(textareaId) {
   textarea.focus();
 }
 
-// ======== Generator: składanie HTML ========
+
 
 function escapeHtml(s = '') {
   return s
@@ -640,17 +640,7 @@ function buildList(tag, textContent, listHeading, cssClass) {
   return `${heading}<${tag}${cls}>${items}</${tag}>`;
 }
 
-function wrapInTextLayout(innerHtml) {
-  return (
-`<section class="section">
-  <div class="item item-6">
-    <section class="text-item">
-      ${innerHtml}
-    </section>
-  </div>
-</section>`
-  );
-}
+
 
 function generateHTML(event) {
   event?.preventDefault?.();
@@ -667,16 +657,17 @@ function generateHTML(event) {
       const cssClass = block.querySelector('input[name*="[class]"]')?.value || '';
       const listHeading = block.querySelector('input[name*="[list_heading]"]')?.value || '';
 
-      let inner = '';
+      let html = '';
       if (tag === 'ul' || tag === 'ol') {
-        inner = buildList(tag, contentRaw, listHeading, cssClass);
+        html = buildList(tag, contentRaw, listHeading, cssClass);
       } else {
         const cls = cssClass && cssClass.trim() ? ` class="${escapeHtml(cssClass.trim())}"` : '';
-        inner = `<${tag}${cls}>${bbcodeToHtml(contentRaw)}</${tag}>`;
+        html = `<${tag}${cls}>${bbcodeToHtml(contentRaw)}</${tag}>`;
       }
-      chunks.push(wrapInTextLayout(inner));
+      chunks.push(html);
     }
 
+   
     if (type === 'image') {
       const url = block.querySelector('input[name*="[url]"]')?.value?.trim() || '';
       const alt = block.querySelector('input[name*="[alt]"]')?.value || '';
@@ -684,23 +675,15 @@ function generateHTML(event) {
       const cssClass = block.querySelector('input[name*="[class]"]')?.value || '';
 
       if (url) {
-        const dimW = w ? ` width="${Number(w)}"` : '';
-        const imageItemClasses = ['image-item', cssClass.trim()].filter(Boolean).join(' ');
+        const widthAttr = w ? ` width="${Number(w)}"` : '';
+        const classAttr = cssClass.trim() ? ` class="${escapeHtml(cssClass.trim())}"` : '';
         
-        const imageHtml = `
-<section class="section">
-    <div class="item item-6">
-        <section class="${escapeHtml(imageItemClasses)}">
-            <picture>
-                <img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}"${dimW} loading="lazy">
-            </picture>
-        </section>
-    </div>
-</section>`;
+        const imageHtml = `<img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}"${widthAttr}${classAttr} loading="lazy">`;
         chunks.push(imageHtml);
       }
     }
 
+    // --- Sekcja Zalet (bez zmian) ---
     if (type === 'advantages') {
       const titles = block.querySelectorAll('[name*="[items]"][name$="[title]"]');
       const items = [];
