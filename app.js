@@ -1,6 +1,4 @@
-
 let sectionCount = 0;
-
 const imageOptions = [
     {
         url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_zona_wiz2.jpg",
@@ -381,405 +379,380 @@ const advantagesOptions = [
     }
 ];
 
-function addTextSection() {
-    const container = document.getElementById('sectionsContainer');
-    const sectionId = `section-${sectionCount++}`;
-    const textareaId = `textarea-${sectionId}`;
 
-    const div = document.createElement('div');
-    div.className = 'section-block';
-    div.setAttribute('data-id', sectionId);
-    div.innerHTML = `
-        <div class="section-actions">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
-        </div>
-        <h5>Sekcja tekstowa</h5>
-        <div class="mb-2">
-            <label class="form-label">Rodzaj tagu:</label>
-            <select class="form-select" name="sections[${sectionId}][tag]" onchange="toggleListTitle(this)">
-                <option value="p">p</option>
-                <option value="strong">strong</option>
-                <option value="h1">h1</option>
-                <option value="h2">h2</option>
-                <option value="h3">h3</option>
-                <option value="ul">Lista wypunktowana (ul)</option>
-                <option value="ol">Lista numerowana (ol)</option>
-            </select>
-        </div>
-        <div class="mb-2 list-title" style="display:none">
-            <label class="form-label">Nagłówek listy:</label>
-            <input type="text" class="form-control" name="sections[${sectionId}][list_heading]">
-        </div>
-        <div class="mb-2">
-            <label class="form-label d-flex justify-content-between">
-                <span>Treść:</span>
-                <button type="button" class="btn btn-sm btn-outline-dark" onclick="wrapInBold('${textareaId}')"><strong>B</strong></button>
-            </label>
-            <textarea id="${textareaId}" class="form-control" name="sections[${sectionId}][content]" rows="4"></textarea>
-        </div>
-        <div class="mb-2">
-            <label class="form-label">Klasa CSS:</label>
-            <input type="text" class="form-control" name="sections[${sectionId}][class]">
-        </div>
-        <input type="hidden" name="sections[${sectionId}][type]" value="text">
-    `;
-    container.appendChild(div);
+
+function addTextSection() {
+  const container = document.getElementById('sectionsContainer');
+  const sectionId = `section-${sectionCount++}`;
+  const textareaId = `textarea-${sectionId}`;
+
+  const div = document.createElement('div');
+  div.className = 'section-block';
+  div.setAttribute('data-id', sectionId);
+  div.innerHTML = `
+    <div class="section-actions">
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
+    </div>
+    <h5>Sekcja tekstowa</h5>
+    <div class="mb-2">
+      <label class="form-label">Rodzaj tagu:</label>
+      <select class="form-select" name="sections[${sectionId}][tag]" onchange="toggleListTitle(this)">
+        <option value="p">p</option>
+        <option value="strong">strong</option>
+        <option value="h1">h1</option>
+        <option value="h2">h2</option>
+        <option value="h3">h3</option>
+        <option value="ul">Lista wypunktowana (ul)</option>
+        <option value="ol">Lista numerowana (ol)</option>
+      </select>
+    </div>
+    <div class="mb-2 list-title" style="display:none">
+      <label class="form-label">Nagłówek listy:</label>
+      <input type="text" class="form-control" name="sections[${sectionId}][list_heading]">
+    </div>
+    <div class="mb-2">
+      <label class="form-label d-flex justify-content-between">
+        <span>Treść:</span>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="wrapInBold('${textareaId}')"><strong>B</strong></button>
+      </label>
+      <textarea id="${textareaId}" class="form-control" name="sections[${sectionId}][content]" rows="4"></textarea>
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Klasa CSS:</label>
+      <input type="text" class="form-control" name="sections[${sectionId}][class]">
+    </div>
+    <input type="hidden" name="sections[${sectionId}][type]" value="text">
+  `;
+  container.appendChild(div);
 }
 
 function addImageSection() {
-    const container = document.getElementById('sectionsContainer');
-    const sectionId = `section-${sectionCount++}`;
+  const container = document.getElementById('sectionsContainer');
+  const sectionId = `section-${sectionCount++}`;
 
-    const div = document.createElement('div');
-    div.className = 'section-block';
-    div.setAttribute('data-id', sectionId);
-    
-    const imageOptionsHtml = imageOptions.map((img, index) => 
-        `<option value="${index}">${img.alt}</option>`
-    ).join('');
+  const imageOptionsHtml = imageOptions.map((img, index) =>
+      `<option value="${index}">${img.alt}</option>`
+  ).join('');
 
-    div.innerHTML = `
-        <div class="section-actions">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
-        </div>
-        <h5>Sekcja obrazkowa</h5>
-        <div class="mb-3">
-            <label class="form-label">Wybierz zdjęcie:</label>
-            <select class="form-select" onchange="updateImageDetails(this, '${sectionId}')">
-                <option value="">-- Wybierz zdjęcie --</option>
-                ${imageOptionsHtml}
-            </select>
-        </div>
-        <div class="mb-2">
-            <label class="form-label">URL obrazka:</label>
-            <input type="text" class="form-control" name="sections[${sectionId}][url]" placeholder="https://example.com/image.jpg">
-        </div>
-        <div class="mb-2">
-            <label class="form-label">Alt:</label>
-            <input type="text" class="form-control" name="sections[${sectionId}][alt]" placeholder="Opis alternatywny">
-        </div>
-        <div class="row g-2">
-            <div class="col-md-6">
-                <label class="form-label">Szerokość (width):</label>
-                <input type="number" class="form-control" name="sections[${sectionId}][width]" value="1080">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Wysokość (height):</label>
-                <input type="number" class="form-control" name="sections[${sectionId}][height]" placeholder="np. 720">
-            </div>
-        </div>
-        <div class="mb-2 mt-2">
-            <label class="form-label">Klasa CSS:</label>
-            <input type="text" class="form-control" name="sections[${sectionId}][class]">
-        </div>
-        <div class="mt-3">
-            <img src="" alt="" style="max-width: 100%; display: none;" class="image-preview">
-        </div>
-        <input type="hidden" name="sections[${sectionId}][type]" value="image">
-    `;
-    container.appendChild(div);
-}
-
-function toggleListTitle(select) {
-    const wrapper = select.closest('.section-block');
-    const listTitle = wrapper.querySelector('.list-title');
-    if (!listTitle) return;
-    listTitle.style.display = (select.value === 'ul' || select.value === 'ol') ? 'block' : 'none';
-}
-
-function moveUp(button) {
-    const section = button.closest('.section-block');
-    const prev = section.previousElementSibling;
-    if (prev) section.parentNode.insertBefore(section, prev);
-}
-
-function moveDown(button) {
-    const section = button.closest('.section-block');
-    const next = section.nextElementSibling;
-    if (next) section.parentNode.insertBefore(next, section);
-}
-
-function removeSection(button) {
-    const section = button.closest('.section-block');
-    section.remove();
-}
-
-function wrapInBold(textareaId) {
-    const textarea = document.getElementById(textareaId);
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-
-  
-    if (start === end) {
-        return; 
-    }
-
-    const selected = textarea.value.substring(start, end);
-    const before = textarea.value.substring(0, start);
-    const after = textarea.value.substring(end);
-
-    
-    const wrapped = `<strong>${selected}</strong>`;
-    textarea.value = before + wrapped + after;
-
-   
-    const newPosition = start + wrapped.length;
-    textarea.selectionStart = textarea.selectionEnd = newPosition;
-    textarea.focus();
-}
-
-function addAdvantagesSection() {
-    const container = document.getElementById('sectionsContainer');
-    const sectionId = `section-${sectionCount++}`;
-
-    const div = document.createElement('div');
-    div.className = 'section-block';
-    div.setAttribute('data-id', sectionId);
-    div.innerHTML = `
-        <div class="section-actions">
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
-            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
-        </div>
-        <h5>Sekcja zalet</h5>
-        <div class="advantages-container mb-3"></div>
-        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addAdvantageItem(this, '${sectionId}')">➕ Dodaj zaletę</button>
-        <input type="hidden" name="sections[${sectionId}][type]" value="advantages">
-    `;
-    container.appendChild(div);
-}
-
-function addAdvantageItem(button, sectionId) {
-    const container = button.parentElement.querySelector('.advantages-container');
-    const index = container.children.length;
-
-    const selectId = `select-${sectionId}-${index}`;
-    const hiddenId = `hidden-${sectionId}-${index}`;
-
-    const optionElements = advantagesOptions.map((opt, i) => {
-        return `<option value="${i}">${opt.title}</option>`;
-    }).join('');
-
-    const item = document.createElement('div');
-    item.className = 'border rounded p-2 my-2 bg-white';
-    item.innerHTML = `
-        <div class="mb-2">
-            <label class="form-label">Wybierz zaletę:</label>
-            <select class="form-select" id="${selectId}" onchange="updateHiddenFields('${selectId}', '${hiddenId}', '${sectionId}', '${index}')">
-                <option value="">-- Wybierz --</option>
-                ${optionElements}
-            </select>
-        </div>
-        <div id="${hiddenId}">
-            <input type="hidden" name="sections[${sectionId}][items][${index}][src]">
-            <input type="hidden" name="sections[${sectionId}][items][${index}][alt]">
-            <input type="hidden" name="sections[${sectionId}][items][${index}][title]">
-            <input type="hidden" name="sections[${sectionId}][items][${index}][desc]">
-        </div>
-    `;
-    container.appendChild(item);
-}
-
-function updateHiddenFields(selectId, hiddenId, sectionId, index) {
-    const selectedIndex = document.getElementById(selectId).value;
-    if (selectedIndex === "") return;
-
-    const option = advantagesOptions[selectedIndex];
-    const wrapper = document.getElementById(hiddenId);
-
-    wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][src]"]`).value = option.src;
-    wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][alt]"]`).value = option.alt;
-    wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][title]"]`).value = option.title;
-    wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][desc]"]`).value = option.desc;
-}
-
-function scrubEmptyListHeadings(root = document) {
-    root.querySelectorAll('.section-block').forEach(block => {
-        const tagSelect = block.querySelector('select[name^="sections"][name$="[tag]"]');
-        const titleInput = block.querySelector('input[name^="sections"][name$="[list_heading]"], input[data-name-was][data-name-was$="[list_heading]"]');
-        if (!tagSelect || !titleInput) return;
-
-        const isList = (tagSelect.value === 'ul' || tagSelect.value === 'ol');
-        const isEmpty = !titleInput.value || titleInput.value.trim() === '';
-
-        if (isList && isEmpty && titleInput.hasAttribute('name')) {
-            titleInput.setAttribute('data-name-was', titleInput.getAttribute('name'));
-            titleInput.removeAttribute('name');
-        }
-
-        if (!isEmpty && !titleInput.hasAttribute('name')) {
-            const prev = titleInput.getAttribute('data-name-was');
-            if (prev) titleInput.setAttribute('name', prev);
-        }
-    });
-}
-
-
-function generateHTML(event) {
-    event.preventDefault();
-    scrubEmptyListHeadings();
-    
-    const sections = document.querySelectorAll('.section-block');
-    let generatedHtml = '';
-    
-    sections.forEach(section => {
-        const sectionId = section.getAttribute('data-id');
-        const type = section.querySelector(`input[name="sections[${sectionId}][type]"]`).value;
-        
-        switch(type) {
-            case 'text':
-                generatedHtml += generateTextSection(sectionId, section) + '\n\n';
-                break;
-            case 'image':
-                generatedHtml += generateImageSection(sectionId, section) + '\n\n';
-                break;
-            case 'advantages':
-                generatedHtml += generateAdvantagesSection(sectionId, section) + '\n\n';
-                break;
-        }
-    });
-    
-    const resultDiv = document.getElementById('result');
-    resultDiv.style.display = 'block';
-    updatePreviewAndCode(generatedHtml);
-}
-
-function generateTextSection(sectionId, section) {
-    const tag = section.querySelector(`select[name="sections[${sectionId}][tag]"]`).value;
-    const content = section.querySelector(`textarea[name="sections[${sectionId}][content]"]`).value;
-    const className = section.querySelector(`input[name="sections[${sectionId}][class]"]`).value;
-    const classAttr = className ? ` class="${escapeHtml(className)}"` : '';
-    
-    if (tag === 'ul' || tag === 'ol') {
-        const listHeadingInput = section.querySelector(`input[name="sections[${sectionId}][list_heading]"]`);
-        const listHeading = listHeadingInput && listHeadingInput.value ? 
-            `<h2>${escapeHtml(listHeadingInput.value)}</h2>\n` : '';
-            
-        const items = content.split('\n')
-            .filter(item => item.trim())
-            .map(item => `    <li>${item}</li>`)
-            .join('\n');
-            
-        return `${listHeading}<${tag}${classAttr}>\n${items}\n</${tag}>`;
-    }
-    
-    const processedContent = content;
-    return `<${tag}${classAttr}>${processedContent}</${tag}>`;
-}
-
-function generateImageSection(sectionId, section) {
-    const url = section.querySelector(`input[name="sections[${sectionId}][url]"]`).value;
-    const alt = section.querySelector(`input[name="sections[${sectionId}][alt]"]`).value;
-    const width = section.querySelector(`input[name="sections[${sectionId}][width]"]`).value;
-    const height = section.querySelector(`input[name="sections[${sectionId}][height]"]`).value;
-    const className = section.querySelector(`input[name="sections[${sectionId}][class]"]`).value;
-    
-    const attrs = [
-        `src="${escapeHtml(url)}"`,
-        `alt="${escapeHtml(alt)}"`,
-        width && `width="${width}"`,
-        height && `height="${height}"`,
-        className && `class="${escapeHtml(className)}"`
-    ].filter(Boolean).join(' ');
-    
-    return `<img ${attrs}>`;
-}
-
-function generateAdvantagesSection(sectionId, section) {
-    const advantagesContainer = section.querySelector('.advantages-container');
-    const items = Array.from(advantagesContainer.children).map(item => {
-        const index = Array.from(advantagesContainer.children).indexOf(item);
-        const hidden = item.querySelector(`div[id^="hidden-${sectionId}"]`);
-        
-        if (!hidden) return '';
-        
-        const src = hidden.querySelector(`input[name$="[src]"]`).value;
-        const alt = hidden.querySelector(`input[name$="[alt]"]`).value;
-        const title = hidden.querySelector(`input[name$="[title]"]`).value;
-        const desc = hidden.querySelector(`input[name$="[desc]"]`).value;
-        
-        return `    <div class="advantage-item">
-        <div class="advantage-icon">
-            <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="50" height="50">
-        </div>
-        <div class="advantage-content">
-            <h4>${escapeHtml(title)}</h4>
-            <p>${escapeHtml(desc)}</p>
-        </div>
-    </div>`;
-    }).filter(Boolean).join('\n');
-    
-    if (!items) return '';
-    
-    return `<div class="advantages-grid">\n${items}\n</div>`;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function updatePreviewAndCode(html) {
-    const preview = document.querySelector('#result .preview');
-    preview.innerHTML = html;
-    const sourceCode = document.getElementById('sourceCode');
-    sourceCode.value = html;
-}
-
-function updatePreview() {
-    const sourceCode = document.getElementById('sourceCode');
-    const preview = document.querySelector('#result .preview');
-    const html = sourceCode.value;
-    
-
-    preview.innerHTML = html;
-}
-
-function copyToClipboard() {
-    const sourceCode = document.getElementById('sourceCode');
-    navigator.clipboard.writeText(sourceCode.value).then(() => {
-        alert('Kod został skopiowany do schowka!');
-    }).catch(err => {
-        console.error('Błąd podczas kopiowania:', err);
-        alert('Nie udało się skopiować kodu. Spróbuj zaznaczyć go ręcznie.');
-    });
+  const div = document.createElement('div');
+  div.className = 'section-block';
+  div.setAttribute('data-id', sectionId);
+  div.innerHTML = `
+    <div class="section-actions">
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
+    </div>
+    <h5>Sekcja obrazkowa</h5>
+    <div class="mb-3">
+        <label class="form-label">Wybierz zdjęcie z listy:</label>
+        <select class="form-select" onchange="updateImageDetails(this, '${sectionId}')">
+            <option value="">-- Wybierz lub wypełnij ręcznie --</option>
+            ${imageOptionsHtml}
+        </select>
+    </div>
+    <div class="mb-2">
+      <label class="form-label">URL obrazka:</label>
+      <input type="text" class="form-control" name="sections[${sectionId}][url]" placeholder="https://example.com/image.jpg">
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Alt:</label>
+      <input type="text" class="form-control" name="sections[${sectionId}][alt]" placeholder="Opis alternatywny">
+    </div>
+    <div class="row g-2">
+      <div class="col-md-12">
+        <label class="form-label">Szerokość (width):</label>
+        <input type="number" class="form-control" name="sections[${sectionId}][width]" value="1080">
+      </div>
+    </div>
+    <div class="mb-2 mt-2">
+      <label class="form-label">Klasa CSS (dla sekcji image-item):</label>
+      <input type="text" class="form-control" name="sections[${sectionId}][class]">
+    </div>
+    <div class="mt-3">
+        <img src="" alt="Podgląd wybranego obrazka" style="max-width: 100%; display: none;" class="image-preview">
+    </div>
+    <input type="hidden" name="sections[${sectionId}][type]" value="image">
+  `;
+  container.appendChild(div);
 }
 
 function updateImageDetails(select, sectionId) {
     const section = select.closest('.section-block');
     const index = select.value;
-    
+    const preview = section.querySelector('.image-preview');
+
     if (index === '') {
         section.querySelector(`input[name="sections[${sectionId}][url]"]`).value = '';
         section.querySelector(`input[name="sections[${sectionId}][alt]"]`).value = '';
-        section.querySelector('.image-preview').style.display = 'none';
+        preview.style.display = 'none';
         return;
     }
-    
+
     const imageData = imageOptions[index];
-   
     section.querySelector(`input[name="sections[${sectionId}][url]"]`).value = imageData.url;
     section.querySelector(`input[name="sections[${sectionId}][alt]"]`).value = imageData.alt;
     
-   
-    const preview = section.querySelector('.image-preview');
     preview.src = imageData.url;
     preview.alt = imageData.alt;
     preview.style.display = 'block';
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form');
-    if (!form) return;
+function addAdvantagesSection() {
+  const container = document.getElementById('sectionsContainer');
+  const sectionId = `section-${sectionCount++}`;
 
-    form.addEventListener('input', (e) => {
-        if (e.target && (e.target.matches('input[name$="[list_heading]"]') || e.target.matches('input[data-name-was$="[list_heading]"]'))) {
-            scrubEmptyListHeadings(form);
-        }
-    });
-});
+  const div = document.createElement('div');
+  div.className = 'section-block';
+  div.setAttribute('data-id', sectionId);
+  div.innerHTML = `
+    <div class="section-actions">
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveUp(this)">⬆</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="moveDown(this)">⬇</button>
+      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSection(this)">🗑️</button>
+    </div>
+    <h5>Sekcja zalet</h5>
+    <div class="advantages-container mb-3"></div>
+    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addAdvantageItem(this, '${sectionId}')">➕ Dodaj zaletę</button>
+    <input type="hidden" name="sections[${sectionId}][type]" value="advantages">
+  `;
+  container.appendChild(div);
+}
+
+function addAdvantageItem(button, sectionId) {
+  const container = button.parentElement.querySelector('.advantages-container');
+  const index = container.children.length;
+  const selectId = `select-${sectionId}-${index}`;
+  const hiddenId = `hidden-${sectionId}-${index}`;
+
+  const optionElements = advantagesOptions.map((opt, i) => `<option value="${i}">${opt.title}</option>`).join('');
+
+  const item = document.createElement('div');
+  item.className = 'border rounded p-2 my-2 bg-white';
+  item.innerHTML = `
+    <div class="mb-2">
+      <label class="form-label">Wybierz zaletę:</label>
+      <select class="form-select" id="${selectId}" onchange="updateHiddenFields('${selectId}', '${hiddenId}', '${sectionId}', '${index}')">
+        <option value="">-- Wybierz --</option>
+        ${optionElements}
+      </select>
+    </div>
+    <div id="${hiddenId}">
+      <input type="hidden" name="sections[${sectionId}][items][${index}][src]">
+      <input type="hidden" name="sections[${sectionId}][items][${index}][alt]">
+      <input type="hidden" name="sections[${sectionId}][items][${index}][title]">
+      <input type="hidden" name="sections[${sectionId}][items][${index}][desc]">
+    </div>
+  `;
+  container.appendChild(item);
+}
+
+function updateHiddenFields(selectId, hiddenId, sectionId, index) {
+  const selectedIndex = document.getElementById(selectId).value;
+  if (selectedIndex === "") return;
+
+  const option = advantagesOptions[selectedIndex];
+  const wrapper = document.getElementById(hiddenId);
+
+  wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][src]"]`).value = option.src;
+  wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][alt]"]`).value = option.alt;
+  wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][title]"]`).value = option.title;
+  wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][desc]"]`).value = option.desc;
+}
+
+
+
+function toggleListTitle(select) {
+  const wrapper = select.closest('.section-block');
+  const listTitle = wrapper.querySelector('.list-title');
+  if (select.value === 'ul' || select.value === 'ol') {
+    listTitle.style.display = 'block';
+  } else {
+    listTitle.style.display = 'none';
+  }
+}
+
+function moveUp(button) {
+  const section = button.closest('.section-block');
+  const prev = section.previousElementSibling;
+  if (prev) section.parentNode.insertBefore(section, prev);
+}
+
+function moveDown(button) {
+  const section = button.closest('.section-block');
+  const next = section.nextElementSibling;
+  if (next) section.parentNode.insertBefore(next, section);
+}
+
+function removeSection(button) {
+  const section = button.closest('.section-block');
+  section.remove();
+}
+
+function wrapInBold(textareaId) {
+  const textarea = document.getElementById(textareaId);
+  const start = textarea.selectionStart ?? 0;
+  const end = textarea.selectionEnd ?? 0;
+  const selected = textarea.value.substring(start, end);
+  const before = textarea.value.substring(0, start);
+  const after = textarea.value.substring(end);
+  const wrapped = `[b]${selected}[/b]`;
+  textarea.value = before + wrapped + after;
+  textarea.selectionStart = textarea.selectionEnd = before.length + wrapped.length;
+  textarea.focus();
+}
+
+// ======== Generator: składanie HTML ========
+
+function escapeHtml(s = '') {
+  return s
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function bbcodeToHtml(raw = '') {
+  let s = escapeHtml(raw);
+  s = s.replaceAll('[b]', '<strong>').replaceAll('[/b]', '</strong>');
+  return s;
+}
+
+function buildList(tag, textContent, listHeading, cssClass) {
+  const items = textContent
+    .split(/\r?\n/)
+    .map(t => t.trim())
+    .filter(Boolean)
+    .map(li => `<li>${bbcodeToHtml(li)}</li>`)
+    .join('');
+
+  const heading = listHeading && listHeading.trim()
+    ? `<h3>${escapeHtml(listHeading.trim())}</h3>`
+    : '';
+
+  const cls = cssClass && cssClass.trim()
+    ? ` class="${escapeHtml(cssClass.trim())}"`
+    : '';
+
+  return `${heading}<${tag}${cls}>${items}</${tag}>`;
+}
+
+function wrapInTextLayout(innerHtml) {
+  return (
+`<section class="section">
+  <div class="item item-6">
+    <section class="text-item">
+      ${innerHtml}
+    </section>
+  </div>
+</section>`
+  );
+}
+
+function generateHTML(event) {
+  event?.preventDefault?.();
+
+  const blocks = document.querySelectorAll('#sectionsContainer .section-block');
+  const chunks = [];
+
+  blocks.forEach(block => {
+    const type = block.querySelector('input[type="hidden"][name*="[type]"]')?.value;
+
+    if (type === 'text') {
+      const tag = (block.querySelector('select[name*="[tag]"]')?.value || 'p').trim();
+      const contentRaw = block.querySelector('textarea[name*="[content]"]')?.value || '';
+      const cssClass = block.querySelector('input[name*="[class]"]')?.value || '';
+      const listHeading = block.querySelector('input[name*="[list_heading]"]')?.value || '';
+
+      let inner = '';
+      if (tag === 'ul' || tag === 'ol') {
+        inner = buildList(tag, contentRaw, listHeading, cssClass);
+      } else {
+        const cls = cssClass && cssClass.trim() ? ` class="${escapeHtml(cssClass.trim())}"` : '';
+        inner = `<${tag}${cls}>${bbcodeToHtml(contentRaw)}</${tag}>`;
+      }
+      chunks.push(wrapInTextLayout(inner));
+    }
+
+    if (type === 'image') {
+      const url = block.querySelector('input[name*="[url]"]')?.value?.trim() || '';
+      const alt = block.querySelector('input[name*="[alt]"]')?.value || '';
+      const w = block.querySelector('input[name*="[width]"]')?.value || '';
+      const cssClass = block.querySelector('input[name*="[class]"]')?.value || '';
+
+      if (url) {
+        const dimW = w ? ` width="${Number(w)}"` : '';
+        const imageItemClasses = ['image-item', cssClass.trim()].filter(Boolean).join(' ');
+        
+        const imageHtml = `
+<section class="section">
+    <div class="item item-6">
+        <section class="${escapeHtml(imageItemClasses)}">
+            <picture>
+                <img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}"${dimW} loading="lazy">
+            </picture>
+        </section>
+    </div>
+</section>`;
+        chunks.push(imageHtml);
+      }
+    }
+
+    if (type === 'advantages') {
+      const titles = block.querySelectorAll('[name*="[items]"][name$="[title]"]');
+      const items = [];
+      titles.forEach(inp => {
+        const base = inp.name.replace(/\[title\]$/, '');
+        const get = suf => block.querySelector(`[name='${base}${suf}']`)?.value || '';
+        items.push({ src: get('[src]'), alt: get('[alt]'), title: get('[title]'), desc: get('[desc]') });
+      });
+
+      if (items.length) {
+        const boxes = items.map(it => `
+          <div class="advantages-box">
+            <img src="${escapeHtml(it.src)}" alt="${escapeHtml(it.alt)}" />
+            <div class="text">
+              <h3>${escapeHtml(it.title)}</h3>
+              <p>${escapeHtml(it.desc)}</p>
+            </div>
+          </div>
+        `).join('');
+
+        const inner = `<div class="advantages-grid">${boxes}</div>`;
+        chunks.push(inner);
+      }
+    }
+  });
+
+  const html = chunks.join('\n\n');
+
+  const result = document.getElementById('result');
+  const preview = document.querySelector('#result .preview');
+  const source = document.getElementById('sourceCode');
+
+  if (result) result.style.display = 'block';
+  if (preview) preview.innerHTML = html;
+  if (source) source.value = html;
+}
+
+function updatePreview() {
+  const preview = document.querySelector('#result .preview');
+  const source = document.getElementById('sourceCode');
+  if (preview && source) preview.innerHTML = source.value;
+}
+
+async function copyToClipboard() {
+  const source = document.getElementById('sourceCode');
+  if (!source) return;
+  try {
+    await navigator.clipboard.writeText(source.value);
+    alert('Skopiowano do schowka!');
+  } catch {
+    source.select();
+    document.execCommand('copy');
+    alert('Skopiowano do schowka! (metoda awaryjna)');
+  }
+}
