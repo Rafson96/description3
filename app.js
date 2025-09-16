@@ -380,11 +380,11 @@ const advantagesOptions = [
 ];
 
 
-
 function addTextSection() {
   const container = document.getElementById('sectionsContainer');
   const sectionId = `section-${sectionCount++}`;
-  const textareaId = `textarea-${sectionId}`;
+  const editableId = `editable-${sectionId}`;
+  const hiddenTextareaId = `textarea-${sectionId}`;
 
   const div = document.createElement('div');
   div.className = 'section-block';
@@ -415,9 +415,10 @@ function addTextSection() {
     <div class="mb-2">
       <label class="form-label d-flex justify-content-between">
         <span>Treść:</span>
-        <button type="button" class="btn btn-sm btn-outline-dark" onclick="wrapInBold('${textareaId}')"><strong>B</strong></button>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="wrapInBold('${editableId}')"><strong>B</strong></button>
       </label>
-      <textarea id="${textareaId}" class="form-control" name="sections[${sectionId}][content]" rows="4"></textarea>
+      <div id="${editableId}" class="form-control editable-textarea" contenteditable="true" oninput="syncContentEditable(this, '${hiddenTextareaId}')"></div>
+      <textarea id="${hiddenTextareaId}" name="sections[${sectionId}][content]" style="display: none;"></textarea>
     </div>
     <div class="mb-2">
       <label class="form-label">Klasa CSS:</label>
@@ -426,6 +427,40 @@ function addTextSection() {
     <input type="hidden" name="sections[${sectionId}][type]" value="text">
   `;
   container.appendChild(div);
+}
+
+function syncContentEditable(editableDiv, hiddenTextareaId) {
+    const hiddenTextarea = document.getElementById(hiddenTextareaId);
+    if (!hiddenTextarea) return;
+
+    let bbcode = editableDiv.innerHTML;
+
+    bbcode = bbcode.replace(/<br\s*\/?>/gi, "\n");
+    bbcode = bbcode.replace(/<div>(.*?)<\/div>/gi, "$1\n");
+    bbcode = bbcode.replace(/<p>(.*?)<\/p>/gi, "$1\n");
+    
+    bbcode = bbcode.replace(/<strong>/gi, '[b]').replace(/<\/strong>/gi, '[/b]');
+    bbcode = bbcode.replace(/<b>/gi, '[b]').replace(/<\/b>/gi, '[/b]');
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = bbcode;
+    
+    let final_bbcode = tempDiv.textContent || tempDiv.innerText || '';
+
+    if(final_bbcode.slice(-1) === '\n'){
+        final_bbcode = final_bbcode.slice(0, -1);
+    }
+    
+    hiddenTextarea.value = final_bbcode;
+}
+
+function wrapInBold(editableId) {
+  const editableDiv = document.getElementById(editableId);
+  editableDiv.focus();
+  document.execCommand('bold', false, null);
+  
+  const hiddenTextareaId = 'textarea-' + editableId.split('-').slice(1).join('-');
+  syncContentEditable(editableDiv, hiddenTextareaId);
 }
 
 function addImageSection() {
@@ -562,8 +597,6 @@ function updateHiddenFields(selectId, hiddenId, sectionId, index) {
   wrapper.querySelector(`[name="sections[${sectionId}][items][${index}][desc]"]`).value = option.desc;
 }
 
-
-
 function toggleListTitle(select) {
   const wrapper = select.closest('.section-block');
   const listTitle = wrapper.querySelector('.list-title');
@@ -590,21 +623,6 @@ function removeSection(button) {
   const section = button.closest('.section-block');
   section.remove();
 }
-
-function wrapInBold(textareaId) {
-  const textarea = document.getElementById(textareaId);
-  const start = textarea.selectionStart ?? 0;
-  const end = textarea.selectionEnd ?? 0;
-  const selected = textarea.value.substring(start, end);
-  const before = textarea.value.substring(0, start);
-  const after = textarea.value.substring(end);
-  const wrapped = `[b]${selected}[/b]`;
-  textarea.value = before + wrapped + after;
-  textarea.selectionStart = textarea.selectionEnd = before.length + wrapped.length;
-  textarea.focus();
-}
-
-
 
 function escapeHtml(s = '') {
   return s
@@ -640,8 +658,6 @@ function buildList(tag, textContent, listHeading, cssClass) {
   return `${heading}<${tag}${cls}>${items}</${tag}>`;
 }
 
-
-
 function generateHTML(event) {
   event?.preventDefault?.();
 
@@ -667,7 +683,6 @@ function generateHTML(event) {
       chunks.push(html);
     }
 
-   
     if (type === 'image') {
       const url = block.querySelector('input[name*="[url]"]')?.value?.trim() || '';
       const alt = block.querySelector('input[name*="[alt]"]')?.value || '';
@@ -683,7 +698,6 @@ function generateHTML(event) {
       }
     }
 
-    // --- Sekcja Zalet (bez zmian) ---
     if (type === 'advantages') {
       const titles = block.querySelectorAll('[name*="[items]"][name$="[title]"]');
       const items = [];
