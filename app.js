@@ -472,7 +472,7 @@ function addImageSection() {
       <input type="text" class="form-control" name="sections[${sectionId}][class]">
     </div>
     <div class="mt-3">
-        <img src="" alt="Podgląd wybranego obrazka" style="max-width: 100%; display: none;" class="image-preview">
+        <img width: 150px; src="" alt="Podgląd wybranego obrazka" style="max-width: 100%; display: none;" class="image-preview">
     </div>
     <input type="hidden" name="sections[${sectionId}][type]" value="image">
   `;
