@@ -1,83 +1,83 @@
 let sectionCount = 0;
 const imageOptions = [
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_zona_wiz2.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_zona_wiz2.jpg",
         alt: "Lustro Multiline Zona - wizualizacja 2"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz4_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_trim_wiz4_1_.jpg",
         alt: "Lustro Multiline Trim - wizualizacja 4"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_zona_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_zona_wiz1.jpg",
         alt: "Lustro Multiline Zona - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz2_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_trim_wiz2_1_.jpg",
         alt: "Lustro Multiline Trim - wizualizacja 2"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz3_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_trim_wiz3_1_.jpg",
         alt: "Lustro Multiline Trim - wizualizacja 3"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz1_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_trim_wiz1_1_.jpg",
         alt: "Lustro Multiline Trim - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_trim_wiz4.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_trim_wiz4.jpg",
         alt: "Lustro Multiline Trim - wizualizacja 4 alternatywna"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz3.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_sid_wiz3.jpg",
         alt: "Lustro Multiline Sid - wizualizacja 3"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz5_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_sid_wiz5_1_.jpg",
         alt: "Lustro Multiline Sid - wizualizacja 5"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_sid_wiz1_1_.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_sid_wiz1_1_.jpg",
         alt: "Lustro Multiline Sid - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_orbita_lux_wiz7.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_orbita_lux_wiz7.jpg",
         alt: "Lustro Multiline Orbita Lux - wizualizacja 7"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_orbita_amb_wiz4.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_orbita_amb_wiz4.jpg",
         alt: "Lustro Multiline Orbita Ambient - wizualizacja 4"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz5.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_moon__wiz5.jpg",
         alt: "Lustro Multiline Moon - wizualizacja 5"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz3.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_moon__wiz3.jpg",
         alt: "Lustro Multiline Moon - wizualizacja 3"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_moon__wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_moon__wiz1.jpg",
         alt: "Lustro Multiline Moon - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_longer_sand_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_longer_sand_wiz1.jpg",
         alt: "Lustro Multiline Longer Sand - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_longer_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_longer_wiz1.jpg",
         alt: "Lustro Multiline Longer - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_kinu_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_kinu_wiz1.jpg",
         alt: "Lustro Multiline Kinu - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_ceres_sand_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_ceres_sand_wiz1.jpg",
         alt: "Lustro Multiline Ceres Sand - wizualizacja 1"
     },
     {
-        url: "https://mfstore.pl/media/.thumbswysiwyg/image_description/lustra/lustro_multiline_ceres_wiz1.jpg",
+        url: "https://mfstore.pl/media/wysiwyg/image_description/lustra/lustro_multiline_ceres_wiz1.jpg",
         alt: "Lustro Multiline Ceres - wizualizacja 1"
     }
 ];
